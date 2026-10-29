@@ -11,6 +11,8 @@ const CaesarRender = (() => {
   };
   const minOf = (cat) => (cat.items.length ? Math.min(...cat.items.map((i) => i.p[0])) : 0);
   const count = (k) => `${k} صنف`;
+  const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI'];
+  const MAP = 'https://www.google.com/maps/search/?api=1&query=30.320629,31.317338';
   const totals = (data) => {
     let cats = 0, items = 0;
     data.wings.forEach((w) => w.cats.forEach((c) => { cats += 1; items += c.items.length; }));
@@ -42,7 +44,7 @@ ${c.items.map((it) => `          <li class="row"><span class="row__name"><span c
       </section>`;
   };
 
-  const faceHTML = (c, i) => `<a class="face" href="#${esc(c.id)}" data-target="${esc(c.id)}" style="--i: ${i}"><span class="face__name">${esc(c.name)}</span><span class="face__count">${count(c.items.length)}</span><span class="face__from">${c.items.length ? `من <b>${minOf(c)}</b> ج.م` : 'لسه مفيهوش أصناف'}</span></a>`;
+  const faceHTML = (c, i) => `<a class="face" href="#${esc(c.id)}" data-target="${esc(c.id)}" style="--i: ${i}"><span class="face__shine" aria-hidden="true"></span><span class="face__num" lang="en" dir="ltr" aria-hidden="true">${ROMAN[i] || i + 1}</span><span class="face__name">${esc(c.name)}</span><span class="face__count">${count(c.items.length)}</span><span class="face__from">${c.items.length ? `من <b>${minOf(c)}</b> ج.م` : 'لسه مفيهوش أصناف'}</span></a>`;
 
   const chev = (d) => `<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
 
@@ -50,6 +52,7 @@ ${c.items.map((it) => `          <li class="row"><span class="row__name"><span c
     <div class="wing" id="wing-${esc(w.key)}" role="tabpanel" aria-labelledby="tab-${esc(w.key)}" data-wing="${esc(w.key)}">
       <p class="wing__line">${esc(w.line)}</p>
       <div class="drum" data-drum style="--n: ${Math.max(w.cats.length, 3)}">
+        <div class="drum__floor" aria-hidden="true"></div>
         <div class="drum__ring" data-ring>
           ${w.cats.map(faceHTML).join('\n          ')}
         </div>
@@ -87,6 +90,7 @@ ${c.items.map((it) => `          <li class="row"><span class="row__name"><span c
   <section class="hero" id="top" aria-labelledby="hero-h">
     <div class="container hero__grid">
       <div class="hero__text">
+        <p class="hero__status" data-open hidden><span class="hero__dot" aria-hidden="true"></span><span data-open-text></span></p>
         <h1 id="hero-h">تعالى سيزر… الباقي عندنا.</h1>
         <p class="lead">قهوة على المزاج، بيتزا طالعة من الفرن، وحلويات تتشرب معاها حاجة سخنة.</p>
         <div class="hero__actions">
@@ -94,7 +98,7 @@ ${c.items.map((it) => `          <li class="row"><span class="row__name"><span c
           <a class="btn btn--quiet" href="#visit">إزاي توصلنا</a>
         </div>
       </div>
-      <figure class="hero__mark">
+      <figure class="hero__mark" data-hero-mark>
         <img src="${logo}" width="640" height="640" alt="شعار سيزر كافيه ومطعم: تمثال قيصر بالدهبي على أرضية سودا" fetchpriority="high">
       </figure>
     </div>
@@ -146,9 +150,9 @@ ${data.wings.map(wingHTML).join('\n')}
         <p class="lead">كافيه ومطعم في مكان واحد.</p>
       </div>
       <dl class="visit__rows">
-        <div class="visit__row"><dt>العنوان</dt><dd>${fact(s.address, 'address', 'العنوان هيتكتب هنا')}</dd></div>
+        <div class="visit__row"><dt>العنوان</dt><dd>${fact(s.address, 'address', 'العنوان هيتكتب هنا')}${s.address ? ` <a class="visit__map" href="${MAP}" target="_blank" rel="noopener">افتح على الخريطة</a>` : ''}</dd></div>
         <div class="visit__row"><dt>المواعيد</dt><dd>${fact(s.hours, 'hours', 'مواعيد الفتح هتتكتب هنا')}</dd></div>
-        <div class="visit__row"><dt>الطلبات</dt><dd>${s.wa ? `على واتساب <span class="num" dir="ltr">+${esc(s.wa)}</span>، أو من السلة هنا.` : 'من السلة هنا، والطلب بيتبعت على واتساب.'}</dd></div>
+        <div class="visit__row"><dt>الطلبات</dt><dd>${s.wa ? `على واتساب <a class="num" dir="ltr" href="https://wa.me/${esc(s.wa)}" target="_blank" rel="noopener">0${esc(s.wa.slice(2))}</a>، أو من السلة هنا.` : 'من السلة هنا، والطلب بيتبعت على واتساب.'}</dd></div>
         <div class="visit__row"><dt>القعدة</dt><dd>قهوة وأكل، وكيدز أريا للولاد.</dd></div>
       </dl>
     </div>
@@ -252,6 +256,37 @@ if (typeof document === 'undefined') {
     const fmt = (n) => `${n} ج.م`;
     const digits = (v) => String(v).replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^\d]/g, '');
     const KEY = 'caesar-cart';
+    const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let webgl = null;
+    const can3d = () => {
+      if (webgl !== null) return webgl;
+      try {
+        const c = document.createElement('canvas');
+        webgl = !reduced() && !(navigator.connection && navigator.connection.saveData) && !!(c.getContext('webgl2') || c.getContext('webgl'));
+      } catch (_) { webgl = false; }
+      return webgl;
+    };
+    const flyToCart = (from) => {
+      const bar = document.querySelector('.cartbar__sum b');
+      if (!bar || reduced()) return;
+      const a = from.getBoundingClientRect(), b = bar.getBoundingClientRect();
+      const x0 = a.left + a.width / 2, y0 = a.top + a.height / 2, x1 = b.left + b.width / 2, y1 = b.top + b.height / 2;
+      const coin = document.createElement('span');
+      coin.className = 'flyer';
+      coin.setAttribute('aria-hidden', 'true');
+      document.body.append(coin);
+      const lift = Math.min(220, Math.abs(y1 - y0) * 0.45 + 60);
+      const anim = coin.animate([
+        { transform: `translate(${x0}px, ${y0}px) translate(-50%, -50%) scale(.6) rotateY(0deg)`, opacity: 0 },
+        { transform: `translate(${x0 + (x1 - x0) * 0.35}px, ${Math.min(y0, y1) - lift}px) translate(-50%, -50%) scale(1.25) rotateY(360deg)`, opacity: 1, offset: 0.45 },
+        { transform: `translate(${x1}px, ${y1}px) translate(-50%, -50%) scale(.35) rotateY(720deg)`, opacity: 0.9 },
+      ], { duration: 820, easing: 'cubic-bezier(.45,.05,.3,1)' });
+      anim.onfinish = () => {
+        coin.remove();
+        const inner = document.querySelector('.cartbar__inner');
+        if (inner) { inner.classList.remove('is-bump'); void inner.offsetWidth; inner.classList.add('is-bump'); }
+      };
+    };
 
     // state shared by the one-time listeners
     let data = null;
@@ -290,11 +325,15 @@ if (typeof document === 'undefined') {
           drum.style.setProperty('--r', Math.round(Math.max(fit, fw * 1.25)) + 'px');
         };
         const shade = () => faces.forEach((f, k) => {
-          const dd = Math.abs((((s.angle - k * step) % 360) + 540) % 360 - 180);
+          const sd = (((s.angle - k * step) % 360) + 540) % 360 - 180;
+          const dd = Math.abs(sd);
           const off = dd > 70;
           f.style.opacity = off ? '0' : String(Math.max(0.3, 1 - dd / 90).toFixed(2));
           f.style.visibility = off ? 'hidden' : '';
+          f.style.setProperty('--lit', Math.max(0, 1 - dd / 55).toFixed(3));
+          f.style.setProperty('--side', (sd / 70).toFixed(3));
         });
+        cats.forEach((c) => c.querySelectorAll('.row').forEach((r, j) => r.style.setProperty('--d', Math.min(j, 14))));
         const select = (k, opts = {}) => {
           if (!faces.length) { now.textContent = 'الجناح ده لسه فاضي'; return; }
           k = ((k % n) + n) % n;
@@ -310,7 +349,11 @@ if (typeof document === 'undefined') {
             if (on) f.setAttribute('aria-current', 'true'); else f.removeAttribute('aria-current');
             f.tabIndex = on ? 0 : -1;
           });
-          cats.forEach((c) => { c.hidden = c.id !== faces[k].dataset.target; });
+          cats.forEach((c) => {
+            const on = c.id === faces[k].dataset.target;
+            if (on && c.hidden && !opts.quiet) { c.classList.remove('is-reveal'); void c.offsetWidth; c.classList.add('is-reveal'); }
+            c.hidden = !on;
+          });
           now.textContent = faces[k].querySelector('.face__name').textContent + '، ' + faces[k].querySelector('.face__count').textContent;
           if (opts.focus) faces[k].focus({ preventScroll: true });
         };
@@ -332,10 +375,24 @@ if (typeof document === 'undefined') {
           select(v === 'home' ? 0 : v === 'end' ? n - 1 : s.i + v, { focus: true });
         });
         wing.querySelectorAll('[data-step]').forEach((b) => b.addEventListener('click', () => select(s.i + Number(b.dataset.step))));
+        if (matchMedia('(hover: hover)').matches) {
+          faces.forEach((f) => {
+            f.addEventListener('pointermove', (e) => {
+              if (drag && drag.moved) return;
+              const r = f.getBoundingClientRect();
+              const px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+              f.style.setProperty('--rx', (-py * 14).toFixed(2) + 'deg');
+              f.style.setProperty('--ry', (px * 18).toFixed(2) + 'deg');
+              f.style.setProperty('--gx', ((px + 0.5) * 100).toFixed(1) + '%');
+              f.style.setProperty('--gy', ((py + 0.5) * 100).toFixed(1) + '%');
+            });
+            f.addEventListener('pointerleave', () => { f.style.removeProperty('--rx'); f.style.removeProperty('--ry'); f.style.removeProperty('--gx'); f.style.removeProperty('--gy'); });
+          });
+        }
         let drag = null;
         drum.addEventListener('pointerdown', (e) => {
           if (e.pointerType === 'mouse' && e.button !== 0) return;
-          drag = { x: e.clientX, y: e.clientY, a: s.angle, moved: false, id: e.pointerId };
+          drag = { x: e.clientX, y: e.clientY, a: s.angle, moved: false, id: e.pointerId, v: 0, lx: e.clientX, lt: performance.now() };
         });
         drum.addEventListener('pointermove', (e) => {
           if (!drag) return;
@@ -347,23 +404,29 @@ if (typeof document === 'undefined') {
             drum.classList.add('is-drag');
             try { drum.setPointerCapture(drag.id); } catch (_) {}
           }
-          s.angle = drag.a + dx * (240 / drum.offsetWidth) * (step / 20);
+          const k2 = (240 / drum.offsetWidth) * (step / 20);
+          const tnow = performance.now();
+          const inst = ((e.clientX - drag.lx) * k2) / Math.max(8, tnow - drag.lt);
+          drag.v = drag.v * 0.6 + inst * 0.4;
+          drag.lx = e.clientX; drag.lt = tnow;
+          s.angle = drag.a + dx * k2;
           ring.style.setProperty('--angle', s.angle + 'deg');
           shade();
         });
         const end = () => {
           if (!drag) return;
           const moved = drag.moved;
+          const fling = performance.now() - drag.lt < 90 ? Math.max(-3 * step, Math.min(3 * step, drag.v * 260)) : 0;
           drag = null;
           drum.classList.remove('is-drag');
-          if (moved) { suppress = true; setTimeout(() => { suppress = false; }, 0); select(Math.round(s.angle / step)); }
+          if (moved) { suppress = true; setTimeout(() => { suppress = false; }, 0); select(Math.round((s.angle + fling) / step)); }
         };
         drum.addEventListener('pointerup', end);
         drum.addEventListener('pointercancel', end);
         drum.addEventListener('lostpointercapture', end);
         drums[wing.dataset.wing] = { layout, select, faces, s };
         layout();
-        select(0);
+        select(0, { quiet: true });
       });
 
       const showWing = (key, opts = {}) => {
@@ -373,7 +436,12 @@ if (typeof document === 'undefined') {
           t.tabIndex = on ? 0 : -1;
           if (on && opts.focus) t.focus();
         });
-        wingEls.forEach((w) => { w.hidden = w.dataset.wing !== key; });
+        wingEls.forEach((w) => {
+          const on = w.dataset.wing === key;
+          if (on && w.hidden && opts.animate !== false) { w.classList.remove('is-entering'); void w.offsetWidth; w.classList.add('is-entering'); }
+          w.hidden = !on;
+        });
+        document.querySelector('.menu')?.setAttribute('data-wing-now', key);
         const dr = drums[key];
         if (dr) { dr.layout(); dr.select(dr.s.i); }
       };
@@ -386,7 +454,7 @@ if (typeof document === 'undefined') {
           showWing(tabs[(i + dir + tabs.length) % tabs.length].dataset.tab, { focus: true });
         });
       });
-      if (tabs.length) showWing(tabs[0].dataset.tab);
+      if (tabs.length) showWing(tabs[0].dataset.tab, { animate: false });
 
       // ---------- search ----------
       const input = document.getElementById('menu-q');
@@ -402,7 +470,7 @@ if (typeof document === 'undefined') {
       let activeKey = tabs.length ? tabs[0].dataset.tab : '';
       const run = () => {
         const q = norm(input.value);
-        if (!q) { results.hidden = true; bar.hidden = false; showWing(activeKey); help.textContent = ''; return; }
+        if (!q) { results.hidden = true; bar.hidden = false; showWing(activeKey, { animate: false }); help.textContent = ''; return; }
         const sel = tabs.find((t) => t.getAttribute('aria-selected') === 'true');
         if (results.hidden && sel) activeKey = sel.dataset.tab;
         const hits = index.filter((x) => x.key.includes(q));
@@ -531,6 +599,41 @@ if (typeof document === 'undefined') {
       dlg.querySelector('[data-clear-cart]').addEventListener('click', () => { cart = []; save(); paintBar(); paintCart(); dlg.close(); });
       paintBar();
 
+      // ---------- open now (Cairo time) ----------
+      const status = document.querySelector('[data-open]');
+      if (status) {
+        const paintOpen = () => {
+          try {
+            const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Cairo', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date()).map((x) => [x.type, x.value]));
+            const m = Number(parts.hour) * 60 + Number(parts.minute);
+            const friday = parts.weekday === 'Fri';
+            const opensAt = friday ? 13 * 60 : 8 * 60;
+            const open = m < 120 || m >= opensAt;
+            status.classList.toggle('is-open', open);
+            status.querySelector('[data-open-text]').textContent = open ? 'مفتوحين دلوقتي، لحد 2 بالليل' : `مقفولين دلوقتي، بنفتح الساعة ${friday ? '1 الضهر' : '8 الصبح'}`;
+            status.hidden = false;
+          } catch (_) { status.hidden = true; }
+        };
+        paintOpen();
+        clearInterval(window.__caesarOpenTimer);
+        window.__caesarOpenTimer = setInterval(paintOpen, 60000);
+      }
+
+      // ---------- reveal on scroll ----------
+      if ('IntersectionObserver' in window && !reduced()) {
+        const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -12% 0px' });
+        document.querySelectorAll('.menu__head, .menu__bar, .statement, .band__grid, .visit__head, .visit__row, .foot__brand').forEach((el, i) => { el.classList.add('reveal'); el.style.setProperty('--rd', String(el.classList.contains('visit__row') ? i % 4 : 0)); io.observe(el); });
+      }
+
+      // ---------- the 3D hero ----------
+      const mark = document.querySelector('[data-hero-mark]');
+      if (mark && can3d()) {
+        const go = () => { (window.__caesarHero ||= import('/vendor/hero3d.js')).then((m) => m.start(mark)).catch(() => {}); };
+        if (window.__caesarHero) go();
+        else if (document.readyState === 'complete') (window.requestIdleCallback || setTimeout)(go, { timeout: 900 });
+        else window.addEventListener('load', () => (window.requestIdleCallback || setTimeout)(go, { timeout: 900 }), { once: true });
+      }
+
       ui = { paintBar, openCat, dlg };
     };
 
@@ -543,6 +646,7 @@ if (typeof document === 'undefined') {
       if (line) line.q += 1; else cart.push({ id, s, q: 1 });
       save(); ui.paintBar();
       b.classList.remove('is-added'); void b.offsetWidth; b.classList.add('is-added');
+      flyToCart(b);
     });
     const fromHash = () => { const id = location.hash.slice(1); if (id.startsWith('cat-') && ui) ui.openCat(id); };
     window.addEventListener('hashchange', fromHash);

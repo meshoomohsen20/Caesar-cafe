@@ -5,6 +5,11 @@
   "type": "module",
   "scripts": {
     "build": "node src/build.mjs",
-    "seed": "node src/seed.mjs"
+    "seed": "node src/seed.mjs",
+    "build:3d": "esbuild src/hero3d.js --bundle --format=esm --minify --target=es2020 --outfile=vendor/hero3d.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "three": "^0.170.0"
   }
 }
