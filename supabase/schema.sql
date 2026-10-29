@@ -54,10 +54,10 @@ as $$
   select exists (select 1 from public.admins where user_id = auth.uid());
 $$;
 revoke all on function public.is_admin() from public;
-grant execute on function public.is_admin() to anon, authenticated;
+grant execute on function public.is_admin() to authenticated;
 
 create or replace function public.touch_updated_at()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql set search_path = public as $$
 begin new.updated_at = now(); return new; end;
 $$;
 drop trigger if exists items_touch on public.items;
@@ -83,7 +83,9 @@ drop policy if exists "categories admin" on public.categories;
 create policy "categories admin" on public.categories for all to authenticated using (public.is_admin()) with check (public.is_admin());
 
 drop policy if exists "items read" on public.items;
-create policy "items read" on public.items for select to anon, authenticated using (active or public.is_admin());
+create policy "items read" on public.items for select to anon using (active);
+drop policy if exists "items read signed in" on public.items;
+create policy "items read signed in" on public.items for select to authenticated using (active or public.is_admin());
 drop policy if exists "items admin" on public.items;
 create policy "items admin" on public.items for all to authenticated using (public.is_admin()) with check (public.is_admin());
 
@@ -100,5 +102,17 @@ grant insert, update, delete on public.wings, public.categories, public.items to
 grant update on public.settings to authenticated;
 grant select on public.admins to authenticated;
 
--- بعد ما تعمل حساب الأدمن من Authentication > Users، خليه أدمن بالسطر ده (غيّر الإيميل):
--- insert into public.admins (user_id) select id from auth.users where email = 'admin@example.com';
+-- اسم المستخدم admin في لوحة التحكم = الإيميل admin@caesar.local.
+-- أول ما الحساب ده يتعمل من Authentication > Users، بيبقى أدمن لوحده:
+create or replace function public.grant_caesar_admin()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if lower(new.email) = 'admin@caesar.local' then
+    insert into public.admins (user_id) values (new.id) on conflict do nothing;
+  end if;
+  return new;
+end;
+$$;
+revoke all on function public.grant_caesar_admin() from public, anon, authenticated;
+drop trigger if exists caesar_admin_on_signup on auth.users;
+create trigger caesar_admin_on_signup after insert on auth.users for each row execute function public.grant_caesar_admin();

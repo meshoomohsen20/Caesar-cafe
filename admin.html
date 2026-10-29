@@ -134,8 +134,8 @@ a { color: inherit; text-underline-offset: 0.3em; }
     <form class="gate__box" data-login novalidate>
       <h1>لوحة تحكم سيزر</h1>
       <div class="field">
-        <label for="lg-email">الإيميل</label>
-        <input id="lg-email" name="email" type="email" autocomplete="username" dir="ltr" required>
+        <label for="lg-email">اسم المستخدم</label>
+        <input id="lg-email" name="email" type="text" autocomplete="username" autocapitalize="off" spellcheck="false" dir="ltr" required>
       </div>
       <div class="field">
         <label for="lg-pass">الباسورد</label>
@@ -244,19 +244,20 @@ a { color: inherit; text-underline-offset: 0.3em; }
     if (!session) { show('login'); return; }
     const { data: row, error } = await sb.from('admins').select('user_id').eq('user_id', session.user.id).maybeSingle();
     if (error || !row) { show('denied'); return; }
-    $('[data-who]').textContent = session.user.email || '';
+    $('[data-who]').textContent = (session.user.email || '').replace(/@caesar\.local$/, '');
     show('main');
     if (!started) { started = true; await load(); }
   };
   $('[data-login]').addEventListener('submit', async (e) => {
     e.preventDefault();
     const f = e.currentTarget, help = $('#lg-help'), btn = f.querySelector('[type=submit]');
-    const email = f.email.value.trim(), password = f.password.value;
-    if (!email || !password) { help.textContent = 'اكتب الإيميل والباسورد.'; (email ? f.password : f.email).focus(); return; }
+    const login = f.email.value.trim(), password = f.password.value;
+    const email = login.includes('@') ? login : login.toLowerCase() + '@caesar.local';
+    if (!login || !password) { help.textContent = 'اكتب اسم المستخدم والباسورد.'; (login ? f.password : f.email).focus(); return; }
     btn.setAttribute('aria-busy', 'true'); btn.disabled = true; help.textContent = '';
     const { data, error } = await sb.auth.signInWithPassword({ email, password });
     btn.removeAttribute('aria-busy'); btn.disabled = false;
-    if (error) { help.textContent = /invalid/i.test(error.message) ? 'الإيميل أو الباسورد غلط.' : errText(error); f.password.focus(); return; }
+    if (error) { help.textContent = /invalid/i.test(error.message) ? 'اسم المستخدم أو الباسورد غلط.' : errText(error); f.password.focus(); return; }
     enter(data.session);
   });
   $$('[data-logout]').forEach((b) => b.addEventListener('click', async () => { await sb.auth.signOut(); started = false; show('login'); }));

@@ -8,11 +8,8 @@
 
 1. **اعمل مشروع على Supabase.**
 2. **الجداول:** من SQL Editor شغّل `supabase/schema.sql`، وبعده `supabase/seed.sql` (ده بينقل المنيو الحالي كله، 425 صنف).
-3. **حساب الأدمن:** من Authentication > Users > Add user، اعمل إيميل وباسورد. وبعدين شغّل السطر ده في SQL Editor بعد ما تحط الإيميل:
-   ```sql
-   insert into public.admins (user_id) select id from auth.users where email = 'الإيميل هنا';
-   ```
-4. **الربط:** من Project Settings > API، انسخ Project URL والمفتاح anon public، وحطهم في `config.js`.
+3. **حساب الأدمن:** من Authentication > Users > Add user > Create new user: الإيميل `admin@caesar.local`، وباسورد قوي، وعلّم Auto Confirm User. الحساب بيبقى أدمن لوحده، وبتدخل لوحة التحكم باسم المستخدم `admin`.
+4. **الربط:** `config.js` متربط خلاص بمشروع Caesar cafe.
 5. **ارفع على GitHub واربطه بـ Vercel.** الإعدادات جاهزة في `vercel.json`.
 6. **افتح `/admin`، وادخل، وحط رقم واتساب الطلبات** من تبويب «الطلبات وبيانات المطعم».
 
