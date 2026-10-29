@@ -203,8 +203,8 @@ ${data.wings.map(wingHTML).join('\n')}
         <p class="field__help" id="co-phone-help"></p>
       </div>
       <div class="field">
-        <label for="co-address">العنوان بالتفصيل</label>
-        <textarea id="co-address" name="address" rows="3" autocomplete="street-address" required minlength="12" placeholder="المنطقة، الشارع، رقم العمارة، الدور والشقة، وعلامة مميزة"></textarea>
+        <label for="co-address">العنوان</label>
+        <textarea id="co-address" name="address" rows="3" autocomplete="street-address" required minlength="3" placeholder="اسم المنطقة، ولو تحب: الشارع أو علامة مميزة"></textarea>
         <p class="field__help" id="co-address-help"></p>
       </div>
       <p class="checkout__off" data-wa-missing hidden>استقبال الطلبات أونلاين لسه مش متفعّل. رقم واتساب سيزر لسه متحطش.</p>
@@ -563,12 +563,12 @@ if (typeof document === 'undefined') {
       const FIELDS = {
         name: { el: form.elements.name, msg: 'اكتب اسمك.' },
         phone: { el: form.elements.phone, msg: 'اكتب رقم موبايل مصري من 11 رقم، يبدأ بـ 01.' },
-        address: { el: form.elements.address, msg: 'اكتب العنوان بالتفصيل: المنطقة، الشارع، رقم العمارة، والدور.' },
+        address: { el: form.elements.address, msg: 'اكتب اسم المنطقة.' },
       };
       const checkField = (k) => {
         const f = FIELDS[k];
         const v = f.el.value.trim();
-        let ok = v.length >= (k === 'address' ? 12 : 2);
+        let ok = v.length >= (k === 'address' ? 3 : 2);
         if (k === 'phone') ok = /^01[0125]\d{8}$/.test(digits(v).replace(/^20(?=1)/, '0'));
         const helpEl = document.getElementById(f.el.id + '-help');
         f.el.toggleAttribute('aria-invalid', !ok);
