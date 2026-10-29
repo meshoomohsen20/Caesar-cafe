@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>لوحة تحكم سيزر</title>
+<meta name="description" content="لوحة تحكم موقع سيزر كافيه ومطعم: الأصناف والأسعار والأقسام ورقم واتساب الطلبات.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap">
+<style>
+/* Hallmark · shape: Workbench · genre: atmospheric · theme: Kiln (deal: manual, brand) · job: sign up · draw: none
+ * hero: Banner · nav: edge-aligned · footer: colophon · imagery: none · signature: every price editable in place, saved row by row · kiln: ember, accent re-anchored to the logo's gold
+ * axes: dark/high-contrast-serif/warm · posture: full-palette · contrast: pass · fold: pass · brand: Caesar (spec 2026-10-29, sampled from the supplied logo) · v2.0.0 */
+/* Hallmark · pre-emit critique: P3 H4 E4 S4 R5 V3 · weakest: V, an admin follows its tool's shape; kept the site's ground, faces and gold so the owner knows it is the same place */
+:root {
+  color-scheme: dark;
+  --space-3xs: 2px; --space-2xs: 4px; --space-xs: 8px; --space-sm: 12px; --space-md: 16px; --space-lg: 24px; --space-xl: 40px; --space-2xl: 64px;
+  --text-sm: 0.875rem; --text-md: 1rem; --text-lg: 1.25rem; --text-xl: 1.5625rem; --text-2xl: 1.953rem;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --dur-short: 220ms; --dur-micro: 120ms;
+  --color-paper: oklch(11.5% 0.007 70); --color-paper-2: oklch(16.5% 0.012 72); --color-paper-3: oklch(21% 0.016 74);
+  --color-ink: oklch(94% 0.022 82); --color-ink-2: oklch(84% 0.03 78); --color-muted: oklch(72% 0.035 74);
+  --color-rule: oklch(96% 0.01 80 / 0.13);
+  --color-accent: oklch(78% 0.12 78); --color-accent-ink: oklch(15% 0.012 70); --color-focus: oklch(86% 0.13 86);
+  --color-error: oklch(72% 0.15 27); --color-success: oklch(76% 0.13 150);
+  --font-display: "El Messiri", "Noto Naskh Arabic", Georgia, serif; --font-body: "IBM Plex Sans Arabic", "Noto Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --radius-well: 12px; --radius-pill: 999px; --rule-hair: 1px;
+  --container: 1200px; --gutter: 32px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { overflow-x: clip; }
+body { margin: 0; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); font-size: var(--text-md); line-height: 1.6; -webkit-font-smoothing: antialiased; caret-color: var(--color-accent); }
+::selection { background: color-mix(in oklab, var(--color-accent) 35%, transparent); }
+:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+h1, h2 { margin: 0; font-family: var(--font-display); font-weight: 600; line-height: 1.3; overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+h1 { font-size: var(--text-2xl); } h2 { font-size: var(--text-xl); }
+p { margin: 0; }
+[hidden] { display: none !important; }
+button, input, select, textarea { font: inherit; }
+a { color: inherit; text-underline-offset: 0.3em; }
+.container { width: 100%; max-width: var(--container); margin-inline: auto; padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)); }
+@media (max-width: 40rem) { :root { --gutter: 16px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; } }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-xs); min-height: 44px; padding: 0 var(--space-lg); border: 0; border-radius: var(--radius-pill); font-weight: 500; line-height: 1; white-space: nowrap; text-decoration: none; cursor: pointer; transition: background-color var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out), transform var(--dur-micro) var(--ease-out); }
+.btn--primary { background: var(--color-accent); color: var(--color-accent-ink); }
+.btn--primary:hover { background: color-mix(in oklab, var(--color-accent) 86%, var(--color-ink)); }
+.btn--quiet { background: transparent; color: var(--color-ink); box-shadow: inset 0 0 0 var(--rule-hair) var(--color-rule); }
+.btn--quiet:hover { background: var(--color-paper-2); box-shadow: inset 0 0 0 var(--rule-hair) var(--color-muted); }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+.btn[aria-busy="true"] { cursor: progress; }
+.btn--danger.is-armed { box-shadow: inset 0 0 0 var(--rule-hair) var(--color-error); color: var(--color-error); }
+
+.field { display: grid; gap: var(--space-2xs); min-width: 0; }
+.field label { font-size: var(--text-sm); font-weight: 500; color: var(--color-ink-2); }
+.field input, .field select, .field textarea { width: 100%; min-height: 44px; padding: var(--space-xs) var(--space-sm); border: var(--rule-hair) solid var(--color-muted); border-radius: var(--radius-well); background: var(--color-paper); color: var(--color-ink); outline: 2px solid transparent; outline-offset: -3px; }
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline-color: var(--color-focus); }
+.field input::placeholder { color: var(--color-muted); }
+.field [aria-invalid] { border-color: var(--color-error); }
+.field__help { min-height: 1lh; font-size: var(--text-sm); color: var(--color-muted); }
+.check { display: inline-flex; align-items: center; gap: var(--space-xs); min-height: 44px; font-size: var(--text-sm); color: var(--color-ink-2); cursor: pointer; }
+.check input { width: 20px; height: 20px; accent-color: var(--color-accent); }
+
+/* top bar */
+.top { border-bottom: var(--rule-hair) solid var(--color-rule); }
+.top__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-md); min-height: 72px; padding-block: var(--space-sm); }
+.top__mark { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 600; }
+.top__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
+.top__who { font-size: var(--text-sm); color: var(--color-muted); }
+
+/* login */
+.gate { display: grid; place-items: center; min-height: 100dvh; padding-block: var(--space-xl); }
+.gate__box { display: grid; gap: var(--space-lg); width: min(100%, 26rem); padding: var(--space-xl); border-radius: 24px; background: var(--color-paper-2); box-shadow: inset 0 0 0 var(--rule-hair) var(--color-rule); }
+.gate__box p { color: var(--color-ink-2); }
+
+/* workspace */
+.work { padding-block: var(--space-xl) var(--space-2xl); }
+.work__head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-md); padding-bottom: var(--space-lg); }
+.work__head p { color: var(--color-muted); }
+.seg { display: inline-flex; flex-wrap: wrap; gap: var(--space-2xs); padding: var(--space-2xs); border-radius: var(--radius-pill); box-shadow: inset 0 0 0 var(--rule-hair) var(--color-rule); }
+.seg__tab { min-height: 44px; padding: 0 var(--space-lg); border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--color-ink-2); font-weight: 500; cursor: pointer; white-space: nowrap; transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out); }
+.seg__tab:hover { color: var(--color-ink); background: var(--color-paper-2); }
+.seg__tab[aria-selected="true"] { background: var(--color-paper-3); color: var(--color-ink); box-shadow: inset 0 0 0 var(--rule-hair) var(--color-accent); }
+.seg__tab:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.panel { padding-top: var(--space-xl); }
+.bar { display: flex; flex-wrap: wrap; align-items: end; gap: var(--space-sm); padding-bottom: var(--space-lg); border-bottom: 2px solid var(--color-ink); }
+.bar .field { flex: 1 1 16rem; }
+.hint { padding-top: var(--space-md); font-size: var(--text-sm); color: var(--color-muted); }
+
+.rows { display: grid; }
+.irow { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 4fr) auto; align-items: start; gap: var(--space-sm); padding-block: var(--space-md); border-bottom: var(--rule-hair) solid var(--color-rule); }
+.irow.is-new { background: color-mix(in oklab, var(--color-accent) 6%, transparent); }
+.irow__prices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs); }
+.irow__side { display: grid; gap: var(--space-xs); justify-items: start; padding-top: var(--space-lg); }
+.irow__btns { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.irow__status { min-height: 1lh; font-size: var(--text-sm); color: var(--color-muted); }
+.irow__status.is-error { color: var(--color-error); }
+.irow__status.is-ok { color: var(--color-success); }
+.crow { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr) minmax(0, 1fr) auto; align-items: start; gap: var(--space-sm); padding-block: var(--space-md); border-bottom: var(--rule-hair) solid var(--color-rule); }
+.crow__side { display: grid; gap: var(--space-xs); padding-top: var(--space-lg); }
+.newcat { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr) auto; align-items: end; gap: var(--space-sm); padding: var(--space-md); border-radius: var(--radius-well); background: var(--color-paper-2); }
+.info { display: grid; gap: var(--space-md); max-width: 40rem; }
+.info__foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); }
+.empty { padding-block: var(--space-xl); color: var(--color-muted); }
+@media (max-width: 60rem) {
+  .irow { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .irow__prices, .irow__side { grid-column: 1 / -1; }
+  .irow__side { padding-top: 0; }
+  .crow, .newcat { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .crow__side { grid-column: 1 / -1; padding-top: 0; }
+}
+@media (max-width: 40rem) { .irow, .crow, .newcat { grid-template-columns: minmax(0, 1fr); } .gate__box { padding: var(--space-lg); } }
+</style>
+<script src="/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+</head>
+<body>
+<main id="app">
+  <section class="gate" data-view="loading">
+    <p>بنحمّل لوحة التحكم…</p>
+  </section>
+
+  <section class="gate" data-view="setup" hidden>
+    <div class="gate__box">
+      <h1>لوحة تحكم سيزر</h1>
+      <p>لسه مفيش ربط بـ Supabase. اكتب الرابط والمفتاح العام في ملف config.js وارفعه.</p>
+    </div>
+  </section>
+
+  <section class="gate" data-view="login" hidden>
+    <form class="gate__box" data-login novalidate>
+      <h1>لوحة تحكم سيزر</h1>
+      <div class="field">
+        <label for="lg-email">الإيميل</label>
+        <input id="lg-email" name="email" type="email" autocomplete="username" dir="ltr" required>
+      </div>
+      <div class="field">
+        <label for="lg-pass">الباسورد</label>
+        <input id="lg-pass" name="password" type="password" autocomplete="current-password" dir="ltr" required>
+        <p class="field__help" id="lg-help" aria-live="polite"></p>
+      </div>
+      <button class="btn btn--primary" type="submit">ادخل</button>
+    </form>
+  </section>
+
+  <section class="gate" data-view="denied" hidden>
+    <div class="gate__box">
+      <h1>الحساب ده مش أدمن</h1>
+      <p>دخلت بحساب مش متسجل كأدمن لموقع سيزر. اطلب من صاحب الموقع يضيفك، أو ادخل بحساب تاني.</p>
+      <button class="btn btn--quiet" type="button" data-logout>اخرج</button>
+    </div>
+  </section>
+
+  <div data-view="main" hidden>
+    <header class="top">
+      <div class="container top__inner">
+        <p class="top__mark">لوحة تحكم سيزر</p>
+        <div class="top__actions">
+          <span class="top__who" data-who></span>
+          <a class="btn btn--quiet" href="/" target="_blank" rel="noopener">افتح الموقع</a>
+          <button class="btn btn--quiet" type="button" data-logout>اخرج</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="container work">
+      <div class="work__head">
+        <div class="seg" role="tablist" aria-label="أقسام لوحة التحكم">
+          <button class="seg__tab" type="button" role="tab" id="t-items" aria-controls="p-items" aria-selected="true" data-tab="items">الأصناف والأسعار</button>
+          <button class="seg__tab" type="button" role="tab" id="t-cats" aria-controls="p-cats" aria-selected="false" tabindex="-1" data-tab="cats">الأقسام</button>
+          <button class="seg__tab" type="button" role="tab" id="t-info" aria-controls="p-info" aria-selected="false" tabindex="-1" data-tab="info">الطلبات وبيانات المطعم</button>
+        </div>
+        <p>أي تعديل بيظهر في الموقع أول ما تحفظه.</p>
+      </div>
+
+      <section class="panel" id="p-items" role="tabpanel" aria-labelledby="t-items">
+        <div class="bar">
+          <div class="field"><label for="f-cat">القسم</label><select id="f-cat"></select></div>
+          <div class="field"><label for="f-q">دوّر في القسم</label><input id="f-q" type="search" autocomplete="off"></div>
+          <button class="btn btn--primary" type="button" data-new-item>أضف صنف</button>
+        </div>
+        <p class="hint">سعر واحد للصنف العادي، سعرين لسنجل ودبل، وتلاتة لصغير ووسط وكبير. الصنف اللي تشيل علامة «ظاهر» بيختفي من الموقع من غير ما يتمسح.</p>
+        <div class="rows" data-items></div>
+      </section>
+
+      <section class="panel" id="p-cats" role="tabpanel" aria-labelledby="t-cats" hidden>
+        <form class="newcat" data-newcat novalidate>
+          <div class="field"><label for="nc-name">اسم القسم الجديد</label><input id="nc-name" name="name" type="text" required></div>
+          <div class="field"><label for="nc-en">الاسم بالإنجليزي (اختياري)</label><input id="nc-en" name="en" type="text" dir="ltr"></div>
+          <div class="field"><label for="nc-wing">في جناح</label><select id="nc-wing" name="wing"></select></div>
+          <button class="btn btn--primary" type="submit">أضف القسم</button>
+        </form>
+        <p class="field__help" id="nc-help" aria-live="polite"></p>
+        <div class="rows" data-cats></div>
+      </section>
+
+      <section class="panel" id="p-info" role="tabpanel" aria-labelledby="t-info" hidden>
+        <form class="info" data-info novalidate>
+          <div class="field">
+            <label for="in-wa">رقم واتساب اللي بتوصله الطلبات</label>
+            <input id="in-wa" name="wa" type="tel" inputmode="tel" dir="ltr" placeholder="01xxxxxxxxx" autocomplete="off">
+            <p class="field__help" id="in-wa-help">كل طلب من السلة بيتبعت رسالة على الرقم ده. من غيره العميل مش هيقدر يكمّل الطلب.</p>
+          </div>
+          <div class="field"><label for="in-address">العنوان</label><input id="in-address" name="address" type="text"></div>
+          <div class="field"><label for="in-hours">المواعيد</label><input id="in-hours" name="hours" type="text" placeholder="مثلاً كل يوم من 9 الصبح لـ 2 بالليل"></div>
+          <div class="info__foot">
+            <button class="btn btn--primary" type="submit">احفظ</button>
+            <p class="irow__status" data-info-status aria-live="polite"></p>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const views = $$('[data-view]');
+  const show = (name) => views.forEach((v) => { v.hidden = v.dataset.view !== name; });
+  const digits = (v) => String(v).replace(/[٠-٩]/g, (d) => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^\d]/g, '');
+  const errText = (e) => {
+    const m = String((e && (e.message || e.error_description)) || '');
+    if (/row-level security|permission denied|42501/i.test(m)) return 'مش مسموح للحساب ده يعدّل.';
+    if (/Failed to fetch|NetworkError/i.test(m)) return 'مفيش اتصال. اتأكد من النت وجرّب تاني.';
+    if (/check constraint/i.test(m)) return 'فيه قيمة مش مظبوطة. راجع الأسعار والرقم.';
+    if (/JWT|expired/i.test(m)) return 'الجلسة خلصت. اخرج وادخل تاني.';
+    return 'الحفظ ما تمّش. جرّب تاني بعد شوية.';
+  };
+
+  const cfg = window.CAESAR_CONFIG || {};
+  if (!cfg.supabaseUrl || !cfg.supabaseAnonKey || !window.supabase) { show('setup'); return; }
+  const sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+
+  const db = { wings: [], cats: [], items: [] };
+  let started = false;
+
+  // ---------- auth ----------
+  const enter = async (session) => {
+    if (!session) { show('login'); return; }
+    const { data: row, error } = await sb.from('admins').select('user_id').eq('user_id', session.user.id).maybeSingle();
+    if (error || !row) { show('denied'); return; }
+    $('[data-who]').textContent = session.user.email || '';
+    show('main');
+    if (!started) { started = true; await load(); }
+  };
+  $('[data-login]').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = e.currentTarget, help = $('#lg-help'), btn = f.querySelector('[type=submit]');
+    const email = f.email.value.trim(), password = f.password.value;
+    if (!email || !password) { help.textContent = 'اكتب الإيميل والباسورد.'; (email ? f.password : f.email).focus(); return; }
+    btn.setAttribute('aria-busy', 'true'); btn.disabled = true; help.textContent = '';
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    btn.removeAttribute('aria-busy'); btn.disabled = false;
+    if (error) { help.textContent = /invalid/i.test(error.message) ? 'الإيميل أو الباسورد غلط.' : errText(error); f.password.focus(); return; }
+    enter(data.session);
+  });
+  $$('[data-logout]').forEach((b) => b.addEventListener('click', async () => { await sb.auth.signOut(); started = false; show('login'); }));
+  sb.auth.getSession().then(({ data }) => enter(data.session));
+
+  // ---------- tabs ----------
+  const tabs = $$('[data-tab]');
+  const pickTab = (t, focus) => {
+    tabs.forEach((x) => { const on = x === t; x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1; $('#' + x.getAttribute('aria-controls')).hidden = !on; });
+    if (focus) t.focus();
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => pickTab(t));
+    t.addEventListener('keydown', (e) => {
+      const d = { ArrowLeft: 1, ArrowRight: -1 }[e.key];
+      if (!d) return;
+      e.preventDefault();
+      pickTab(tabs[(i + d + tabs.length) % tabs.length], true);
+    });
+  });
+
+  // ---------- load ----------
+  const load = async () => {
+    const [w, c, it, st] = await Promise.all([
+      sb.from('wings').select('*').order('sort').order('key'),
+      sb.from('categories').select('*').order('sort').order('id'),
+      sb.from('items').select('*').order('sort').order('id'),
+      sb.from('settings').select('*').eq('id', 1).maybeSingle(),
+    ]);
+    const bad = [w, c, it, st].find((r) => r.error);
+    if (bad) { $('[data-items]').innerHTML = ''; const p = document.createElement('p'); p.className = 'empty'; p.textContent = 'مقدرناش نحمّل البيانات: ' + errText(bad.error); $('[data-items]').append(p); return; }
+    db.wings = w.data; db.cats = c.data; db.items = it.data;
+    fillCatSelect(); renderItems(); renderCats(); fillInfo(st.data || {});
+  };
+
+  // ---------- items ----------
+  const catSel = $('#f-cat'), qIn = $('#f-q'), itemsBox = $('[data-items]');
+  const fillCatSelect = () => {
+    const keep = catSel.value;
+    catSel.innerHTML = '';
+    db.wings.forEach((w) => {
+      const g = document.createElement('optgroup');
+      g.label = w.name;
+      db.cats.filter((c) => c.wing_key === w.key).forEach((c) => {
+        const o = document.createElement('option');
+        o.value = c.id;
+        o.textContent = `${c.name} (${db.items.filter((i) => i.category_id === c.id).length})`;
+        g.append(o);
+      });
+      catSel.append(g);
+    });
+    if (keep && db.cats.some((c) => c.id === keep)) catSel.value = keep;
+    const wingSel = $('#nc-wing');
+    wingSel.innerHTML = '';
+    db.wings.forEach((w) => { const o = document.createElement('option'); o.value = w.key; o.textContent = w.name; wingSel.append(o); });
+  };
+  const norm = (t) => t.toLowerCase().replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').trim();
+
+  const itemRow = (it) => {
+    const isNew = !it.id;
+    const uid = 'r' + Math.random().toString(36).slice(2, 8);
+    const row = document.createElement('div');
+    row.className = 'irow' + (isNew ? ' is-new' : '');
+    row.innerHTML = `
+      <div class="field"><label for="${uid}-n">الاسم</label><input id="${uid}-n" type="text"></div>
+      <div class="field"><label for="${uid}-d">المكونات</label><input id="${uid}-d" type="text"></div>
+      <div class="irow__prices">
+        <div class="field"><label for="${uid}-p0">السعر</label><input id="${uid}-p0" type="text" inputmode="numeric" dir="ltr"></div>
+        <div class="field"><label for="${uid}-p1">سعر 2</label><input id="${uid}-p1" type="text" inputmode="numeric" dir="ltr"></div>
+        <div class="field"><label for="${uid}-p2">سعر 3</label><input id="${uid}-p2" type="text" inputmode="numeric" dir="ltr"></div>
+      </div>
+      <div class="irow__side">
+        <label class="check"><input type="checkbox" id="${uid}-a"> ظاهر</label>
+        <div class="irow__btns">
+          <button class="btn btn--quiet" type="button" data-save>${isNew ? 'أضف' : 'احفظ'}</button>
+          <button class="btn btn--quiet btn--danger" type="button" data-del>${isNew ? 'إلغاء' : 'امسح'}</button>
+        </div>
+        <p class="irow__status" aria-live="polite"></p>
+      </div>`;
+    const [n, d, p0, p1, p2, a] = $$('input', row);
+    const saveB = $('[data-save]', row), delB = $('[data-del]', row), status = $('.irow__status', row);
+    n.value = it.name || ''; d.value = it.description || ''; a.checked = it.active !== false;
+    [p0, p1, p2].forEach((x, k) => { x.value = (it.prices || [])[k] ?? ''; });
+    const say = (t, kind) => { status.textContent = t; status.className = 'irow__status' + (kind ? ' is-' + kind : ''); };
+    const dirty = () => { saveB.disabled = false; say(isNew ? '' : 'فيه تعديل لسه متحفظش.'); };
+    saveB.disabled = !isNew;
+    [n, d, p0, p1, p2].forEach((x) => x.addEventListener('input', dirty));
+    a.addEventListener('change', dirty);
+    saveB.addEventListener('click', async () => {
+      const prices = [p0, p1, p2].map((x) => digits(x.value)).filter((x) => x !== '').map(Number);
+      const name = n.value.trim();
+      [n, p0].forEach((x) => x.removeAttribute('aria-invalid'));
+      if (!name) { n.setAttribute('aria-invalid', ''); say('اكتب اسم الصنف.', 'error'); n.focus(); return; }
+      if (!prices.length || prices.some((x) => !(x > 0))) { p0.setAttribute('aria-invalid', ''); say('اكتب سعر واحد على الأقل.', 'error'); p0.focus(); return; }
+      const payload = { name, description: d.value.trim(), prices, active: a.checked };
+      saveB.setAttribute('aria-busy', 'true'); saveB.disabled = true; say('بنحفظ…');
+      let res;
+      if (isNew) {
+        const sort = Math.max(0, ...db.items.filter((x) => x.category_id === catSel.value).map((x) => x.sort)) + 1;
+        res = await sb.from('items').insert({ ...payload, category_id: catSel.value, sort }).select().single();
+      } else {
+        res = await sb.from('items').update(payload).eq('id', it.id).select().single();
+      }
+      saveB.removeAttribute('aria-busy');
+      if (res.error) { saveB.disabled = false; say(errText(res.error), 'error'); return; }
+      if (isNew) { db.items.push(res.data); fillCatSelect(); renderItems(); return; }
+      Object.assign(it, res.data);
+      say('اتحفظ.', 'ok');
+    });
+    delB.addEventListener('click', async () => {
+      if (isNew) { row.remove(); return; }
+      if (!delB.classList.contains('is-armed')) { delB.classList.add('is-armed'); delB.textContent = 'متأكد؟ امسح'; return; }
+      delB.disabled = true; say('بنمسح…');
+      const { error } = await sb.from('items').delete().eq('id', it.id);
+      if (error) { delB.disabled = false; say(errText(error), 'error'); return; }
+      db.items = db.items.filter((x) => x !== it);
+      fillCatSelect(); row.remove();
+    });
+    delB.addEventListener('blur', () => { if (!isNew) { delB.classList.remove('is-armed'); delB.textContent = 'امسح'; } });
+    return row;
+  };
+  const renderItems = () => {
+    const q = norm(qIn.value);
+    const list = db.items.filter((i) => i.category_id === catSel.value && (!q || norm(i.name + ' ' + i.description).includes(q)));
+    itemsBox.replaceChildren(...list.map(itemRow));
+    if (!list.length) { const p = document.createElement('p'); p.className = 'empty'; p.textContent = q ? 'مفيش صنف بالاسم ده في القسم.' : 'القسم ده فاضي. اضغط «أضف صنف».'; itemsBox.append(p); }
+  };
+  catSel.addEventListener('change', () => { qIn.value = ''; renderItems(); });
+  qIn.addEventListener('input', renderItems);
+  $('[data-new-item]').addEventListener('click', () => {
+    if (!catSel.value) return;
+    $('.empty', itemsBox)?.remove();
+    const row = itemRow({ active: true, prices: [] });
+    itemsBox.prepend(row);
+    $('input', row).focus();
+  });
+
+  // ---------- categories ----------
+  const catsBox = $('[data-cats]');
+  const renderCats = () => {
+    const wi = (k) => db.wings.findIndex((w) => w.key === k);
+    const ordered = [...db.cats].sort((a, b) => wi(a.wing_key) - wi(b.wing_key) || a.sort - b.sort);
+    catsBox.replaceChildren(...ordered.map((c) => {
+      const uid = 'c' + Math.random().toString(36).slice(2, 8);
+      const row = document.createElement('div');
+      row.className = 'crow';
+      row.innerHTML = `
+        <div class="field"><label for="${uid}-n">اسم القسم</label><input id="${uid}-n" type="text"></div>
+        <div class="field"><label for="${uid}-e">بالإنجليزي</label><input id="${uid}-e" type="text" dir="ltr"></div>
+        <div class="field"><label for="${uid}-w">الجناح</label><select id="${uid}-w"></select></div>
+        <div class="field"><label for="${uid}-s">الترتيب</label><input id="${uid}-s" type="text" inputmode="numeric" dir="ltr"></div>
+        <div class="crow__side">
+          <div class="irow__btns"><button class="btn btn--quiet" type="button" data-save disabled>احفظ</button><button class="btn btn--quiet btn--danger" type="button" data-del>امسح</button></div>
+          <p class="irow__status" aria-live="polite"></p>
+        </div>`;
+      const n = $(`#${uid}-n`, row), e = $(`#${uid}-e`, row), w = $(`#${uid}-w`, row), s = $(`#${uid}-s`, row);
+      db.wings.forEach((x) => { const o = document.createElement('option'); o.value = x.key; o.textContent = x.name; w.append(o); });
+      n.value = c.name; e.value = c.en || ''; w.value = c.wing_key; s.value = c.sort;
+      const saveB = $('[data-save]', row), delB = $('[data-del]', row), status = $('.irow__status', row);
+      const say = (t, kind) => { status.textContent = t; status.className = 'irow__status' + (kind ? ' is-' + kind : ''); };
+      [n, e, s].forEach((x) => x.addEventListener('input', () => { saveB.disabled = false; say('فيه تعديل لسه متحفظش.'); }));
+      w.addEventListener('change', () => { saveB.disabled = false; say('فيه تعديل لسه متحفظش.'); });
+      saveB.addEventListener('click', async () => {
+        if (!n.value.trim()) { say('اكتب اسم القسم.', 'error'); n.focus(); return; }
+        saveB.disabled = true; say('بنحفظ…');
+        const { data, error } = await sb.from('categories').update({ name: n.value.trim(), en: e.value.trim(), wing_key: w.value, sort: Number(digits(s.value) || 0) }).eq('id', c.id).select().single();
+        if (error) { saveB.disabled = false; say(errText(error), 'error'); return; }
+        Object.assign(c, data);
+        fillCatSelect(); say('اتحفظ.', 'ok');
+      });
+      delB.addEventListener('click', async () => {
+        const count = db.items.filter((i) => i.category_id === c.id).length;
+        if (!delB.classList.contains('is-armed')) { delB.classList.add('is-armed'); delB.textContent = count ? `امسح القسم و${count} صنف` : 'متأكد؟ امسح'; return; }
+        delB.disabled = true; say('بنمسح…');
+        const { error } = await sb.from('categories').delete().eq('id', c.id);
+        if (error) { delB.disabled = false; say(errText(error), 'error'); return; }
+        db.cats = db.cats.filter((x) => x !== c);
+        db.items = db.items.filter((i) => i.category_id !== c.id);
+        fillCatSelect(); renderItems(); row.remove();
+      });
+      delB.addEventListener('blur', () => { delB.classList.remove('is-armed'); delB.textContent = 'امسح'; });
+      return row;
+    }));
+  };
+  $('[data-newcat]').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const f = ev.currentTarget, help = $('#nc-help');
+    const name = f.name.value.trim();
+    if (!name) { help.textContent = 'اكتب اسم القسم.'; f.name.focus(); return; }
+    const sort = Math.max(0, ...db.cats.filter((c) => c.wing_key === f.wing.value).map((c) => c.sort)) + 1;
+    const { data, error } = await sb.from('categories').insert({ name, en: f.en.value.trim(), wing_key: f.wing.value, sort }).select().single();
+    if (error) { help.textContent = errText(error); return; }
+    db.cats.push(data);
+    f.reset(); help.textContent = `اتضاف قسم «${data.name}». تقدر تضيف أصنافه من تبويب الأصناف.`;
+    fillCatSelect(); renderCats();
+  });
+
+  // ---------- settings ----------
+  const fillInfo = (st) => {
+    const f = $('[data-info]');
+    f.wa.value = st.whatsapp ? '0' + String(st.whatsapp).replace(/^20/, '') : '';
+    f.address.value = st.address || '';
+    f.hours.value = st.hours || '';
+  };
+  $('[data-info]').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const f = ev.currentTarget, status = $('[data-info-status]'), help = $('#in-wa-help'), btn = f.querySelector('[type=submit]');
+    const local = digits(f.wa.value).replace(/^20(?=1)/, '0');
+    if (local && !/^01[0125]\d{8}$/.test(local)) {
+      f.wa.setAttribute('aria-invalid', ''); help.textContent = 'اكتب الرقم 11 رقم يبدأ بـ 01، زي 01012345678.'; f.wa.focus(); return;
+    }
+    f.wa.removeAttribute('aria-invalid');
+    help.textContent = 'كل طلب من السلة بيتبعت رسالة على الرقم ده. من غيره العميل مش هيقدر يكمّل الطلب.';
+    btn.setAttribute('aria-busy', 'true'); btn.disabled = true; status.className = 'irow__status'; status.textContent = 'بنحفظ…';
+    const { error } = await sb.from('settings').update({ whatsapp: local ? '20' + local.slice(1) : '', address: f.address.value.trim(), hours: f.hours.value.trim() }).eq('id', 1);
+    btn.removeAttribute('aria-busy'); btn.disabled = false;
+    if (error) { status.className = 'irow__status is-error'; status.textContent = errText(error); return; }
+    status.className = 'irow__status is-ok';
+    status.textContent = local ? 'اتحفظ. الطلبات هتوصل على ' + local + '.' : 'اتحفظ. من غير رقم، الطلب أونلاين متوقف.';
+  });
+})();
+</script>
+</body>
+</html>
